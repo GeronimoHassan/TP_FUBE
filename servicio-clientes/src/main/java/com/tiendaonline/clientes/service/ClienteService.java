@@ -54,4 +54,17 @@ public class ClienteService {
                 clienteGuardado.getFechaAlta()
         );
     }
+
+    public ClienteResponse buscarPorId(Integer id) {
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Cliente no encontrado"));
+
+        return new ClienteResponse(
+                cliente.getId(),
+                cliente.getNombre(),
+                cliente.getEmail(),
+                cliente.getFechaAlta()
+        );
+    }
 }
