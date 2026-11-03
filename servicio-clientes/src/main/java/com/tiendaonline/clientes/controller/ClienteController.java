@@ -33,4 +33,11 @@ public class ClienteController {
                 .status(HttpStatus.CREATED)
                 .body(respuesta);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ClienteResponse> buscarPorId(
+        @PathVariable Integer id) {
+            return ResponseEntity.ok(
+                clienteService.buscarPorId(id));
+    }
 }
