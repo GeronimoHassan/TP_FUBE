@@ -47,7 +47,7 @@ public class ClienteService {
         entityManager.refresh(clienteGuardado);
 
         // Devolvemos los datos del cliente
-        return aResponse(cliente);
+        return aResponse(clienteGuardado);
     }
 
     public ClienteResponse buscarPorId(Integer id) {
