@@ -9,6 +9,9 @@ import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.*;
 import jakarta.persistence.EntityManager;
+
+import com.tiendaonline.clientes.dto.ClienteResponse;
+import com.tiendaonline.clientes.entity.Cliente;
 import com.tiendaonline.clientes.repository.ClienteRepository;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
@@ -37,4 +40,15 @@ public class ClienteServiceTest {
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
 
+    @Test
+    void buscarPorIdExistenteDevuelveSusDatos() {
+        Cliente cliente = new Cliente("Ana Gómez", "ana@mail.com");
+
+        when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente));
+
+        ClienteResponse respuesta = clienteService.buscarPorId(1);
+
+        assertEquals("Ana Gómez", respuesta.nombre());
+        assertEquals("ana@mail.com", respuesta.email());
+    }
 }
