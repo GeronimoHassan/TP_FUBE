@@ -47,11 +47,26 @@ public class ClienteService {
         entityManager.refresh(clienteGuardado);
 
         // Devolvemos los datos del cliente
+        return aResponse(clienteGuardado);
+    }
+
+    public ClienteResponse buscarPorId(Integer id) {
+
+        //Comprobamos si el cliente existe
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Cliente no encontrado"));
+        
+        // Devolvemos los datos del cliente
+        return aResponse(cliente);
+    }
+
+    private ClienteResponse aResponse(Cliente cliente) {
         return new ClienteResponse(
-                clienteGuardado.getId(),
-                clienteGuardado.getNombre(),
-                clienteGuardado.getEmail(),
-                clienteGuardado.getFechaAlta()
+            cliente.getId(),
+            cliente.getNombre(),
+            cliente.getEmail(),
+            cliente.getFechaAlta()
         );
     }
 }
