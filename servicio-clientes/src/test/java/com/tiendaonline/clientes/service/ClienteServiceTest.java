@@ -1,5 +1,6 @@
 package com.tiendaonline.clientes.service;
 
+import com.tiendaonline.clientes.client.PedidosClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,8 +30,12 @@ public class ClienteServiceTest {
     @Mock
     private FeatureFlagService featureFlagService;
 
+    @Mock
+    private PedidosClient pedidosClient;
+
     @InjectMocks
     private ClienteService clienteService;
+
 
     @Test
     void buscarPorIdInexistenteLanzaNotFound() {
