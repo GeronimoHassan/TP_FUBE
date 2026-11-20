@@ -26,6 +26,9 @@ public class ClienteServiceTest {
     @Mock
     private EntityManager entityManager;
 
+    @Mock
+    private FeatureFlagService featureFlagService;
+
     @InjectMocks
     private ClienteService clienteService;
 
@@ -51,4 +54,19 @@ public class ClienteServiceTest {
         assertEquals("Ana Gómez", respuesta.nombre());
         assertEquals("ana@mail.com", respuesta.email());
     }
+
+    @Test
+    void buscarPorIdConFlagActivadaEnmascaraDatos(){
+
+        Cliente cliente = new Cliente("Ana Gómez","ana@gmail.com");
+
+        when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente));
+        when(featureFlagService.debeEnmascarar(1)).thenReturn(true);
+
+        ClienteResponse respuesta = clienteService.buscarPorId(1);
+
+        assertEquals("A*** G***", respuesta.nombre());
+        assertEquals("****@****.com", respuesta.email());
+    }
+
 }
