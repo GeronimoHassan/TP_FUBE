@@ -15,3 +15,7 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+
+servicios:
+  pedidos:
+    url: http://localhost:8083

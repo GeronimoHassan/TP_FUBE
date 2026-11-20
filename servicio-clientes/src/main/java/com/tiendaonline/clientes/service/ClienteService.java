@@ -2,8 +2,10 @@ package com.tiendaonline.clientes.service;
 
 import com.statsig.sdk.Statsig;
 import com.statsig.sdk.StatsigUser;
+import com.tiendaonline.clientes.client.PedidosClient;
 import com.tiendaonline.clientes.dto.ClienteCrearRequest;
 import com.tiendaonline.clientes.dto.ClienteResponse;
+import com.tiendaonline.clientes.dto.PedidoResponse;
 import com.tiendaonline.clientes.entity.Cliente;
 import com.tiendaonline.clientes.repository.ClienteRepository;
 
@@ -13,18 +15,23 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
+
 @Service
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
     private final EntityManager entityManager;
     private final FeatureFlagService featureFlagService;
+    private final PedidosClient pedidosClient;
 
     public ClienteService(ClienteRepository clienteRepository,
-                          EntityManager entityManager, FeatureFlagService featureFlagService) {
+                          EntityManager entityManager, FeatureFlagService featureFlagService, PedidosClient pedidosClient) {
         this.clienteRepository = clienteRepository;
         this.entityManager = entityManager;
         this.featureFlagService = featureFlagService;
+        this.pedidosClient = pedidosClient;
     }
 
     @Transactional
@@ -73,6 +80,19 @@ public class ClienteService {
 
     }
 
+    public List<PedidoResponse> listarOrdenesDeCliente(Integer clienteId) {
+
+        // cjequeamos que el cliente exista en la base de datos
+        if (!clienteRepository.existsById(clienteId)) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Cliente no encontrado"
+            );
+        }
+
+        //consultamos los pedidos
+        return pedidosClient.listarPorCliente(clienteId);
+    }
 
     private String enmascararNombre(String nombre) {
         if (nombre == null || nombre.isBlank()) {
@@ -121,4 +141,6 @@ public class ClienteService {
             cliente.getFechaAlta()
         );
     }
+
+
 }
