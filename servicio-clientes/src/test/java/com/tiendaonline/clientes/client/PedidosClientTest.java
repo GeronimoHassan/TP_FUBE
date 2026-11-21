@@ -6,6 +6,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockserver.integration.ClientAndServer;
+import org.mockserver.model.HttpError;
 import org.mockserver.verify.VerificationTimes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -152,6 +153,42 @@ class PedidosClientTest {
 
         mockMvc.perform(get("/clientes/1/ordenes"))
                 .andExpect(status().isBadGateway());
+    }
+
+    @Test
+    void pedidosConError400Devuelve502() throws Exception {
+
+        when(clienteRepository.existsById(1)).thenReturn(true);
+
+        mockServer.when(
+                request()
+                        .withMethod("GET")
+                        .withPath("/pedidos")
+                        .withQueryStringParameter("id_cliente", "1")
+        ).respond(
+                response().withStatusCode(400)
+        );
+
+        mockMvc.perform(get("/clientes/1/ordenes"))
+                .andExpect(status().isBadGateway());
+    }
+
+    @Test
+    void pedidosNoDisponibleDevuelve503() throws Exception {
+
+        when(clienteRepository.existsById(1)).thenReturn(true);
+
+        mockServer.when(
+                request()
+                        .withMethod("GET")
+                        .withPath("/pedidos")
+                        .withQueryStringParameter("id_cliente", "1")
+        ).error(
+                HttpError.error().withDropConnection(true)
+        );
+
+        mockMvc.perform(get("/clientes/1/ordenes"))
+                .andExpect(status().isServiceUnavailable());
     }
 
 
