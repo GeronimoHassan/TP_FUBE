@@ -2,6 +2,7 @@ package com.tiendaonline.clientes.controller;
 
 import com.tiendaonline.clientes.dto.ClienteCrearRequest;
 import com.tiendaonline.clientes.dto.ClienteResponse;
+import com.tiendaonline.clientes.dto.PedidoResponse;
 import com.tiendaonline.clientes.service.ClienteService;
 
 import jakarta.validation.Valid;
@@ -9,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/clientes")
@@ -40,4 +43,14 @@ public class ClienteController {
             return ResponseEntity.ok(
                 clienteService.buscarPorId(id));
     }
+
+    @GetMapping("/{id}/ordenes")
+    public ResponseEntity<List<PedidoResponse>> listarOrdenes(
+            @PathVariable Integer id) {
+
+        List<PedidoResponse> ordenes = clienteService.listarOrdenesDeCliente(id);
+
+        return ResponseEntity.ok(ordenes);
+    }
+
 }
