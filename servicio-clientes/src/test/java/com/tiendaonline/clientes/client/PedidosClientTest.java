@@ -75,7 +75,7 @@ class PedidosClientTest {
                 request()
                         .withMethod("GET")
                         .withPath("/pedidos")
-                        .withQueryStringParameter("clienteId", "1")
+                        .withQueryStringParameter("id_cliente", "1")
         ).respond(
                 response()
                         .withStatusCode(200)
@@ -93,7 +93,7 @@ class PedidosClientTest {
                 request()
                         .withMethod("GET")
                         .withPath("/pedidos")
-                        .withQueryStringParameter("clienteId", "1"),
+                        .withQueryStringParameter("id_cliente", "1"),
                 VerificationTimes.once()
         );
     }
@@ -107,7 +107,7 @@ class PedidosClientTest {
                 request()
                         .withMethod("GET")
                         .withPath("/pedidos")
-                        .withQueryStringParameter("clienteId", "1")
+                        .withQueryStringParameter("id_cliente", "1")
         ).respond(
                 response()
                         .withStatusCode(200)
@@ -145,7 +145,7 @@ class PedidosClientTest {
                 request()
                         .withMethod("GET")
                         .withPath("/pedidos")
-                        .withQueryStringParameter("clienteId", "1")
+                        .withQueryStringParameter("id_cliente", "1")
         ).respond(
                 response().withStatusCode(500)
         );
@@ -166,7 +166,7 @@ class PedidosClientTest {
                 request()
                         .withMethod("GET")
                         .withPath("/pedidos")
-                        .withQueryStringParameter("clienteId", "1")
+                        .withQueryStringParameter("id_cliente", "1")
         ).respond(
                 response()
                         .withStatusCode(200)
@@ -184,7 +184,7 @@ class PedidosClientTest {
                 request()
                         .withMethod("GET")
                         .withPath("/pedidos")
-                        .withQueryStringParameter("clienteId", "1"),
+                        .withQueryStringParameter("id_cliente", "1"),
                 VerificationTimes.once()
         );
     }

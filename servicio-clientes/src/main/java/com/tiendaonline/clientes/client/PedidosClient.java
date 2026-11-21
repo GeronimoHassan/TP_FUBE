@@ -40,7 +40,7 @@ public class PedidosClient {
             List<PedidoResponse> pedidos = restClient.get()
                     .uri(uriBuilder -> uriBuilder
                             .path("/pedidos")
-                            .queryParam("clienteId", clienteId)
+                            .queryParam("id_cliente", clienteId)
                             .build())
                     .retrieve()
                     .body(new ParameterizedTypeReference<List<PedidoResponse>>() {});
